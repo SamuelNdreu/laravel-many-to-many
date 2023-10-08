@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Project;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Str;
 
 
 class ProjectController extends Controller
@@ -28,18 +30,28 @@ class ProjectController extends Controller
      */
     public function create()
     {
-        //
+        return view("admin.project.create", ["project"=>new Project()]);
+
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Store a newly< created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
     {
-        //
+        $data=$request->all();
+        $data["author"] = Auth::user()->name;
+        $data["slug"]= Str::slug($data["title"]);
+
+        $newProject= new Project();
+        $newProject->fill($data);
+        $newProject->save();
+
+        return redirect()->route("admin.project.show", $newProject->id);
+
     }
 
     /**
