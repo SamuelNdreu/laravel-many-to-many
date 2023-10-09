@@ -7,12 +7,12 @@
     </div>
     <table class="table">
       <thead>
-<section>
+<section  class="container">
 
   <div class="text-center py-4">
     <a href="{{ route("admin.project.create") }}" class="btn btn-primary">Add new Project</a>
   </div>
-  <table class="table">
+  <table class="table table-dark table-striped table-hover">
     <thead>
       <tr>
           
@@ -25,8 +25,8 @@
       </tr>
 
     </thead>
-    <tbody>
-        @foreach ($projects as $project)
+    <tbody class="table-group-divider">
+      @foreach ($projects as $project)
           <tr>
               <td>{{ $project->id }}</td>
               <td>{{ $project->title }}</td>
