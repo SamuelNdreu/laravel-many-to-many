@@ -3,8 +3,8 @@
   controlla i campi inseriti
 </div>
 @endif
-<form class="container my-5" action="{{route($route, $project->id)}}" method="POST">
-    @csrf
+<form class="container my-5" action="{{route($route, $project->slug)}}" method="POST">
+  @csrf
 
     @method($method)
 
