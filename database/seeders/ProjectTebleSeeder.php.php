@@ -3,6 +3,8 @@
 namespace Database\Seeders;
 
 use App\Models\Project;
+use App\Models\Type;
+
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Str;
@@ -19,6 +21,8 @@ class ProjectTebleSeeder extends Seeder
     {
         for($i = 0; $i < 60; $i++){
             $newProject = new Project();
+            $newProject->type_id = Type::inRandomOrder()->first()->id;
+
             $newProject->title = $faker->unique()->sentence(3);
             $newProject->slug = Str::slug($newProject->title);
             $newProject->author = "Sammy";
