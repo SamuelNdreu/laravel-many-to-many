@@ -23,6 +23,8 @@
         <th scope="col">author</th>
         <th scope="col">date</th>
         <th scope="col">preview</th>
+        <th scope="col">type</th>
+
         <th scope="col">option</th>
       </tr>
 
@@ -35,6 +37,8 @@
               <td>{{ $project->author }}</td>
               <td>{{ $project->date }}</td>
               <td><img src="{{ $project->preview }}" alt="{{ $project->title }}" class="preview"></td>
+              <td>{{ $project->type->type }}</td>
+
               <td>
                 <a href="{{ route("admin.project.show", $project->slug) }}" class="btn btn-primary">Show</a>
                 <a href="{{ route("admin.project.edit", $project->slug) }}" class="btn btn-warning">Edit</a>
