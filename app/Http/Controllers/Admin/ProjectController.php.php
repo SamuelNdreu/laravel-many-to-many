@@ -5,7 +5,10 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Project;
+use App\Models\Technology;
+
 use App\Models\Type;
+
 
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
@@ -19,7 +22,8 @@ class ProjectController extends Controller
         "title"=>"required|string|min:2|max:100|unique:projects,title",
         "date"=>"required|date",
         "preview"=>"required|image|max:300",
-        "type_id"=> "required|exists:types,id"
+        "type_id"=> "required|exists:types,id",
+        "technologies"=> "array|exists:technologies,id"
   
     ];
     protected $errorsMessage=[
@@ -59,7 +63,10 @@ class ProjectController extends Controller
      */
     public function create()
     {
-        return view("admin.project.create", ["project"=>new Project(), 'types'=>Type::all()]);
+        $project = new Project();
+        $types = Type::all();
+        $technologies = Technology::all();
+        return view("admin.projects.create", compact('project', 'types', 'technologies'));
 
     }
 
@@ -80,8 +87,10 @@ class ProjectController extends Controller
         $newProject= new Project();
         $newProject->fill($data);
         $newProject->save();
+        $newProject->technologies()->sync($data['technologies']);
 
-        return redirect()->route("admin.project.show", $newProject->slug)->with("message", "$newProject->title è stato creato con successo")->with("alert-type", "success");
+
+        return redirect()->route("admin.projects.show", $newProject->slug)->with("message", "$newProject->title è stato creato con successo")->with("alert-type", "success");
 
     }
 
@@ -109,7 +118,8 @@ class ProjectController extends Controller
     public function edit(Project $project)
     {
         $types= Type::all();
-        return view('admin.project.edit', compact('project', 'types'));
+        $technologies= Technology::all();
+        return view('admin.project.edit', compact('project', 'types', 'technologies'));
     }
 
     /**
@@ -127,8 +137,10 @@ class ProjectController extends Controller
         $data= $request->validate($rules, $errorsMessage);
 
         $project->update($data);
+        $project->technologies()->sync($data['technologies']);
 
-        return redirect()->route("admin.project.show", compact("project"))->with("message", "$project->title è stato modificato con successo")->with("alert-type", "success");
+
+        return redirect()->route("admin.projects.show", compact("project"))->with("message", "$project->title è stato modificato con successo")->with("alert-type", "success");
     }
 
     /**
