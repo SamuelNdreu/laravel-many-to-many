@@ -13,9 +13,14 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('tecnologies', function (Blueprint $table) {
-            $table->id();
-            $table->string('technology', 10);
+        Schema::create('project_technology', function (Blueprint $table) {
+            $table->unsignedBigInteger('project_id');
+            $table->foreign('project_id')->references('id')->on('projects');
+
+            $table->unsignedBigInteger('technology_id');
+            $table->foreign('technology_id')->references('id')->on('technologies');
+
+            $table->primary(['project_id', 'technology_id']);
             $table->timestamps();
         });
     }
@@ -27,6 +32,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('tecnologies');
+        Schema::dropIfExists('project_technology');
     }
 };
