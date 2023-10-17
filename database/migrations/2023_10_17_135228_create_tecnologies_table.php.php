@@ -1,9 +1,7 @@
 <?php
-
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
-
 return new class extends Migration
 {
     /**
@@ -13,18 +11,13 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('project_technology', function (Blueprint $table) {
-            $table->unsignedBigInteger('project_id');
-            $table->foreign('project_id')->references('id')->on('projects');
-
-            $table->unsignedBigInteger('technology_id');
-            $table->foreign('technology_id')->references('id')->on('technologies');
-
-            $table->primary(['project_id', 'technology_id']);
+        Schema::create('technologies', function (Blueprint $table) {
+            $table->id();
+            $table->string('technology', 10);
+            $table->string('technology');
             $table->timestamps();
         });
     }
-
     /**
      * Reverse the migrations.
      *
@@ -32,10 +25,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::table('projects', function (Blueprint $table) {
-            $table->foreignId('type_id')->constrained();
-            $table->dropForeign('projects_type_id_foreign');
-            $table->dropColumn('type_id');
-        });
+        Schema::dropIfExists('technologies');
     }
 };
