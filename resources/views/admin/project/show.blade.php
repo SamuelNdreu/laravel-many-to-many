@@ -11,6 +11,12 @@
 
   <img src="{{ $project->preview }}" alt="{{ $project->title }}">
       <h1>{{ $project->title }}</h1>
+      <h3>
+        Technoligies:
+        @foreach($project->technologies as $technology)
+          {{ $technology->technology }}
+        @endforeach
+      </h3>
       <h3>Author: {{ $project->author }}</h3>
       <div>date: {{ $project->date }}</div>
       <div class="d-flex">

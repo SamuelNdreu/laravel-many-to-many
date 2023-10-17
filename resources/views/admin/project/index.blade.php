@@ -24,6 +24,8 @@
         <th scope="col">date</th>
         <th scope="col">preview</th>
         <th scope="col">type</th>
+        <th scope="col">technologies</th>
+
 
         <th scope="col">option</th>
       </tr>
@@ -38,6 +40,11 @@
               <td>{{ $project->date }}</td>
               <td><img src="{{ $project->preview }}" alt="{{ $project->title }}" class="preview"></td>
               <td>{{ $project->type->type }}</td>
+              <td>
+                @foreach ($project->technologies as $technology)
+                  {{ $technology->technology }}
+                @endforeach
+              </td>
 
               <td>
                 <a href="{{ route("admin.project.show", $project->slug) }}" class="btn btn-primary">Show</a>
